@@ -1,10 +1,13 @@
 import json
 
-with open('word_lists/main_list.txt', 'r') as word_list_file:
-    word_list = word_list_file.readlines()
+def main():
+    cluster_dict = {}
 
-    for word in word_list:
-        pass
+    with open('word_lists/main_list.txt', 'r') as word_list_file:
+        word_list = word_list_file.readlines()
+
+        for word in word_list:
+            word_clusters = find_clusters(word)
 
 # Takes in a string and a cluster length, returns a list of all clusters that word contains
 def find_clusters(word, cluster_length=3):
@@ -16,3 +19,6 @@ def find_clusters(word, cluster_length=3):
         cluster_list.append(word[i:i+cluster_length])
     
     return cluster_list
+
+if __name__ == '__main__':
+    main()
