@@ -6,9 +6,9 @@ def main():
 
     # Read word list and parse clusters
     with open('word_lists/main_list.txt', 'r') as word_list_file:
-        word_list = word_list_file.read().splitlines()  # Split lines to remove trailing '\n'
+        for word in word_list_file:
+            word = word.strip()                         # Remove trailing '\n'
 
-        for word in word_list:
             word_clusters = set(find_clusters(word))    # Use set to avoid duplication
             for cluster in word_clusters:
                 if cluster in cluster_dict:
