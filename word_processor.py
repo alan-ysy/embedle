@@ -24,6 +24,9 @@ def main():
 
 # Takes in a string and a cluster length, returns a list of all clusters that word contains
 def find_clusters(word, cluster_length=3):
+    if len(word) < cluster_length:
+        return []
+    
     num_clusters = len(word) - (cluster_length - 1)
 
     cluster_list = []
