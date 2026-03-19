@@ -1,13 +1,21 @@
 import json
 
 def main():
+    # Store as cluster : [word list]
     cluster_dict = {}
 
     with open('word_lists/main_list.txt', 'r') as word_list_file:
-        word_list = word_list_file.readlines()
+        word_list = word_list_file.read().splitlines()  # Split lines to remove trailing '\n'
 
         for word in word_list:
             word_clusters = find_clusters(word)
+            for cluster in word_clusters:
+                if cluster in cluster_dict:
+                    cluster_dict[cluster].append(word)
+                    print(f'UPDATE: {cluster} : {word}')
+                else:
+                    cluster_dict[cluster] = [word]
+                    print(f'CREATE: {cluster} : {word}')
 
 # Takes in a string and a cluster length, returns a list of all clusters that word contains
 def find_clusters(word, cluster_length=3):
