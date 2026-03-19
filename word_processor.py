@@ -9,14 +9,14 @@ def main():
         word_list = word_list_file.read().splitlines()  # Split lines to remove trailing '\n'
 
         for word in word_list:
-            word_clusters = find_clusters(word)
+            word_clusters = set(find_clusters(word))    # Use set to avoid duplication
             for cluster in word_clusters:
                 if cluster in cluster_dict:
                     cluster_dict[cluster].append(word)
-                    print(f'UPDATE: {cluster} : {word}')
+                    # print(f'UPDATE: {cluster} : {word}')
                 else:
                     cluster_dict[cluster] = [word]
-                    print(f'CREATE: {cluster} : {word}')
+                    # print(f'CREATE: {cluster} : {word}')
 
     # Save to JSON file
     with open('word_lists/clusters.json', 'w') as cluster_file:
