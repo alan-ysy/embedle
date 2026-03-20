@@ -5,23 +5,42 @@ def main():
     # Store as cluster : [word list]
     cluster_dict = {}
 
-    # Read word list and parse clusters
-    with open("word_lists/main_list.txt", "r") as word_list_file:
-        for word in word_list_file:
-            word = word.strip()  # Remove trailing '\n'
+    while True:
+        read_file = input("Enter a file to read from: ")
 
-            word_clusters = set(find_clusters(word))  # Use set to avoid duplication
-            for cluster in word_clusters:
-                if cluster in cluster_dict:
-                    cluster_dict[cluster].append(word)
-                    # print(f'UPDATE: {cluster} : {word}')
-                else:
-                    cluster_dict[cluster] = [word]
-                    # print(f'CREATE: {cluster} : {word}')
+        try:
+            # Read word list and parse clusters
+            with open(read_file, "r") as word_list_file:
+                for word in word_list_file:
+                    word = word.strip()  # Remove trailing '\n'
 
-    # Save to JSON file
-    with open("word_lists/clusters.json", "w") as cluster_file:
-        json.dump(cluster_dict, cluster_file, indent=2)
+                    # Use set to avoid duplication
+                    word_clusters = set(
+                        find_clusters(word)
+                    )  
+                    for cluster in word_clusters:
+                        if cluster in cluster_dict:
+                            cluster_dict[cluster].append(word)
+                            print(f"UPDATE: {cluster} : {word}")
+                        else:
+                            cluster_dict[cluster] = [word]
+                            print(f"CREATE: {cluster} : {word}")
+            break
+        except FileNotFoundError:
+            print("Error: Could not find file.")
+
+    print("\nSuccessfully parsed word clusters.")
+
+    while True:
+        write_file = input("Enter a file to write to: ")
+
+        try:
+            # Save to JSON file
+            with open(write_file, "w") as cluster_file:
+                json.dump(cluster_dict, cluster_file, indent=2)
+            break
+        except FileNotFoundError:
+            print("Error: Could not find file.")
 
 
 # Takes in a string and a cluster length, returns a list of all clusters that word contains
